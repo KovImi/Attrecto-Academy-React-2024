@@ -12,6 +12,7 @@ import TagField from "../../components/tag-field/TagField";
 import { badgesService } from "../../services/badges.service";
 import { userService } from "../../services/user.service";
 import { Button } from "../../components/button/Button";
+import ProfileImagePreview from "../../components/profile-image-preview/ProfileImagePreview";
 
 const schema = Yup.object({
   name: Yup.string().required(),
@@ -54,7 +55,6 @@ export const UserPage = () => {
     }
   }, [id]);
 
-
   useEffect(() => {
     const fetchBadges = async () => {
       const response = await badgesService.getBadges();
@@ -82,6 +82,8 @@ export const UserPage = () => {
     navigate("/users");
   };
 
+  const imageUrl = watch("image");
+
   return (
     <Page title={user ? user.name : "User"}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,6 +99,7 @@ export const UserPage = () => {
           register={register}
           error={errors.image?.message}
         />
+        <ProfileImagePreview imageUrl={imageUrl} />
         <Controller
           name="badges"
           control={control}
